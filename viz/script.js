@@ -1,4 +1,4 @@
-var map = L.map("map").setView([40.416775, -3.70379], 12); // Madrid por defecto
+var map = L.map("map").setView([40.416775, -3.70379], 12);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: "© OpenStreetMap contributors",
@@ -20,4 +20,4 @@ fetch("./maps/mymap.json")
       },
     }).addTo(map);
   })
-  .catch((error) => console.error("Error cargando GeoJSON:", error));
+  .catch((error) => console.error("Error loading GeoJSON:", error));

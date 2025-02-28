@@ -5,11 +5,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Wifi map - Flipper Zero Wardriving</title>
         <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="vendor/leaflet.css"
+        <link rel="stylesheet" href="vendor/leaflet.css">
     </head>
     <body>
         <h1>Wardriving viewer</h1>
+        <form id="filters">
+            <label for="ssid-filter">Filter by SSID:</label>
+            <input type="text" id="ssid-filter" placeholder="SSID" />
+
+            <label for=""rssi-filter">Signal minimum intensity (RSSI):</label>
+            <input type="range" id="rssi-filter" min="-100" max="-30" value="-100" />
+            <span id="rssi-value">-100 dBm</span>
+            <button id="apply-filters">Apply</button>
+        </form>
         <div id="map"></div>
+        <h2>List of detected networks</h2>
+        <table id="wifi-table">
+            <thead>
+                <tr>
+                    <th>SSID</th>
+                    <th>Security</th>
+                    <th>RSSI (dBm)</th>
+                    <th>Channel</th>
+                    <th>MAC</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
         <script src="vendor/leaflet.js"></script>
         <script src="script.js"></script>

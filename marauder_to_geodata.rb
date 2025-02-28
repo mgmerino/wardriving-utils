@@ -49,7 +49,7 @@ module MarauderToGeoData
     {
       mac_address: data[0].split("|")[1].strip,
       ssid: data[1].strip,
-      security: data[2].strip,
+      security: data[2].strip.tr("[]", ""),
       timestamp: data[3].strip,
       channel: data[4].to_i,
       rssi: data[5].to_i,
@@ -59,6 +59,12 @@ module MarauderToGeoData
       gps_precision: data[9].to_f,
       network_type: data[10].strip
     }
+  end
+
+  def self.filter_duplicates(log_lines)
+    log_lines.group_by { |log| log[:mac_address] }
+        .transform_values { |entries| entries.max_by { |log| log[:rssi] } }
+        .values
   end
 
   def self.generate_kml(log_lines)
@@ -127,7 +133,9 @@ module MarauderToGeoData
     end
 
     parsed_lines = read_input_file(@@options[:input_file])
-    write_output_file(parsed_lines)
+    filtered_lines = filter_duplicates(parsed_lines)
+    write_output_file(filtered_lines)
+
     puts "✅ File successfully written to #{@@options[:output_file]}"
   rescue StandardError => e
     puts "ERROR: #{e.message}"

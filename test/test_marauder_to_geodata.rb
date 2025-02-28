@@ -13,7 +13,7 @@ class TestMarauderToGeoData < Minitest::Test
   def test_parse_marauder_log
     assert_equal "XX:XX:XX:XX:XX:XX", @parsed_log[:mac_address]
     assert_equal "SSID", @parsed_log[:ssid]
-    assert_equal "[WPA2_PSK]", @parsed_log[:security]
+    assert_equal "WPA2_PSK", @parsed_log[:security]
     assert_equal "2021-2-26 18:46:18", @parsed_log[:timestamp]
     assert_equal 6, @parsed_log[:channel]
     assert_equal -88, @parsed_log[:rssi]
@@ -39,5 +39,15 @@ class TestMarauderToGeoData < Minitest::Test
       parsed_data = MarauderToGeoData.read_input_file("fake_log.txt")
       assert_equal 1, parsed_data.size
     end
+  end
+
+  def test_remove_duplicates
+    log_list = [
+      { mac_address: "XX:XX:XX:XX:XX:XX", rssi: -88 },
+      { mac_address: "YY:YY:YY:YY:YY:YY", rssi: -90 },
+      { mac_address: "XX:XX:XX:XX:XX:XX", rssi: -85 }
+    ]
+    filtered_list = MarauderToGeoData.filter_duplicates(log_list)
+    assert_equal 2, filtered_list.size
   end
 end

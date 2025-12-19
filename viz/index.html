@@ -4,34 +4,65 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Wifi map - Flipper Zero Wardriving</title>
-        <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="vendor/leaflet.css">
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <h1>Wardriving viewer</h1>
-        <form id="filters">
-            <label for="ssid-filter">Filter by SSID:</label>
-            <input type="text" id="ssid-filter" placeholder="SSID" />
+        <header>
+            <div class="logo">
+                <span class="logo-icon">📡</span>
+                <h1>Wardriving Viewer</h1>
+            </div>
+            <p class="tagline">Visualize wifi networks</p>
+        </header>
+        
+        <div class="filters-bar">
+            <form id="filters">
+                <div class="filter-group">
+                    <label for="ssid-filter">SSID Search</label>
+                    <input type="text" id="ssid-filter" placeholder="Enter network name..." />
+                </div>
 
-            <label for=""rssi-filter">Signal minimum intensity (RSSI):</label>
-            <input type="range" id="rssi-filter" min="-100" max="-30" value="-100" />
-            <span id="rssi-value">-100 dBm</span>
-            <button id="apply-filters">Apply</button>
-        </form>
-        <div id="map"></div>
-        <h2>List of detected networks</h2>
-        <table id="wifi-table">
-            <thead>
-                <tr>
-                    <th>SSID</th>
-                    <th>Security</th>
-                    <th>RSSI (dBm)</th>
-                    <th>Channel</th>
-                    <th>MAC</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+                <div class="filter-group">
+                    <label for="rssi-filter">Signal Strength (RSSI)</label>
+                    <div class="range-wrapper">
+                        <input type="range" id="rssi-filter" min="-100" max="-30" value="-100" />
+                        <span id="rssi-value">-100 dBm</span>
+                    </div>
+                    <div class="range-labels">
+                        <span>Weak</span>
+                        <span>Strong</span>
+                    </div>
+                </div>
+                
+                <button type="button" id="apply-filters">Apply Filters</button>
+            </form>
+        </div>
+        
+        <main class="container">
+            <section class="map-panel">
+                <div id="map"></div>
+            </section>
+            
+            <aside class="networks-panel">
+                <h2>Detected Networks</h2>
+                <div class="table-wrapper">
+                    <table id="wifi-table">
+                        <thead>
+                            <tr>
+                                <th>SSID</th>
+                                <th>Security</th>
+                                <th>RSSI</th>
+                                <th>CH</th>
+                                <th>MAC</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </aside>
+        </main>
 
         <script src="vendor/leaflet.js"></script>
         <script src="script.js"></script>
